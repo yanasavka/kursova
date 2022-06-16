@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/stylesForSignForms.css">
+    <link rel="shortcut icon" href="assets/pict/title%20img.ico">
+    <title>Personal Diary</title>
+</head>
+<body>
+<div class="wrapper">
+    <div class="title-text">
+        <div class="title login">Login Form</div>
+        <div class="title signup">Signup Form</div>
+    </div>
+    <div class="form-container">
+        <div class="slide-controls">
+            <input type="radio" name="slide" id="login" checked>
+            <input type="radio" name="slide" id="signup">
+            <label for="login" class="slide login">Login</label>
+            <label for="signup" class="slide signup">Signup</label>
+            <div class="slider-tab"></div>
+        </div>
+        <div class="form-inner">
+            <form class="login" id="form-signIn" action="chooser.html" onsubmit="check()" method="get">
+                <div class="field">
+                    <input type="email" placeholder="Email Address" id="usernameIn" required>
+                </div>
+                <div class="field">
+                    <input type="password" placeholder="Password" id="passwordIn" required>
+                </div>
+                <div class="pass-link"><a href="#">Forgot password?</a>
+                    <p class="alert"></p>
+                </div>
+                <div class="field btn">
+                    <div class="btn-layer"></div>
+                    <input id="login-sub" type="submit" value="Login">
+                </div>
+                <div class="signup-link">Not a member? <a href="">Signup now</a></div>
+            </form>
+            <form action="chooser.html" class="signup" method="get" id="form-signUp" onsubmit="check2()">
+                <div class="field">
+                    <input id="usernameUp" type="email" placeholder="Email Address" required>
+                </div>
+                <div class="field">
+                    <input id="psw1" type="password" placeholder="Password" required>
+                </div>
+                <div class="field">
+                    <input id="psw2" type="password" placeholder="Confirm password" required>
+                </div>
+                <p class="alert"></p>
+                <div class="field btn">
+                    <div class="btn-layer"></div>
+                    <input type="submit" value="Signup">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const loginText = document.querySelector(".title-text .login");
+    const loginForm = document.querySelector("form.login");
+    const loginBtn = document.querySelector("label.login");
+    const signupBtn = document.querySelector("label.signup");
+    const signupLink = document.querySelector("form .signup-link a");
+    signupBtn.onclick = (()=>{
+        loginForm.style.marginLeft = "-50%";
+        loginText.style.marginLeft = "-50%";
+    });
+    loginBtn.onclick = (()=>{
+        loginForm.style.marginLeft = "0%";
+        loginText.style.marginLeft = "0%";
+    });
+    signupLink.onclick = (()=>{
+        signupBtn.click();
+        return false;
+    });
+    const usernameIn = document.getElementById('usernameIn');
+    const passwordIn = document.getElementById('passwordIn');
+    const pAlert = document.getElementsByClassName('alert');
+    const loginIn = document.getElementById('login-sub');
+    let usernameInValue = usernameIn.value;
+    const usernameInMatch = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    let passwordInValue = passwordIn.value;
+    const passwordInMatch = /[[a-z][A-Z]\d]{8,}/;
+    const usernameUp = document.getElementById('usernameUp');
+    const psw1 = document.getElementById('psw1');
+    const psw2 = document.getElementById('psw2');
+    let usernameUpValue = usernameUp.value;
+    let psw1Value = psw1.value;
+    let psw2Value = psw2.value;
+    function ifTrue() {
+        if (usernameInMatch.test(usernameInValue) && passwordInMatch.test(passwordInValue)){
+            return true;
+        }
+        else if (usernameInMatch.test(usernameInValue) === false){
+            pAlert[0].innerHTML = 'You entered wrong email. Try again';
+            return false;
+        }
+        else if (passwordInMatch.test(passwordInValue) === false){
+            pAlert[0].innerHTML = 'You entered wrong password. Your password must contains at least' +
+                ' BIG,small letters and numbers. Try again';
+            return false;
+        }
+        else {
+            pAlert[0].innerHTML = 'Try again.'
+            return false;
+        }
+    }
+    function check() {
+        const form_signIn = document.getElementById('form-signIn');
+        if (usernameInValue !== '' && passwordInValue !== ''){
+            ifTrue();
+            if (ifTrue){
+                form_signIn.submit();
+            }
+        }
+        else pAlert[0].innerHTML = 'Try again';
+    }
+    function ifTrue2(){
+        if (usernameInMatch.test(usernameUpValue) && passwordInMatch.test(psw1Value)
+        && passwordInMatch.test(psw2Value) && psw2Value === psw1Value){
+            return true;
+        }
+        else if (usernameInMatch.test(usernameUpValue) === false){
+            pAlert[1].innerHTML = 'You entered wrong email. Try again';
+            return false;
+        }
+        else if (passwordInMatch.test(psw1Value) === false){
+            pAlert[1].innerHTML = 'You entered wrong password. Your password must contains at least' +
+                ' BIG,small letters and numbers. Try again';
+            return false;
+        }
+        else if(psw2Value !== psw1Value){
+            pAlert[1].innerHTML = 'Your passwords don\'t match. Please, try again.'
+        }
+        else {
+            pAlert[1].innerHTML = 'Try again.'
+            return false;
+        }
+    }
+    function check2() {
+        const form_signUp = document.getElementById('form-signUp');
+        if (usernameUpValue !== '' && psw1Value !== '' && psw2Value !== '' && psw2Value !== psw1Value){
+            ifTrue2();
+            if (ifTrue2){
+                form_signUp.submit();
+            }
+        }
+        else pAlert[1].innerHTML = 'Try again';
+    }
+</script>
+</body>
+</html>
